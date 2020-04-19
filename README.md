@@ -24,13 +24,37 @@ public static class IbanValidator
 
     public static List<IbanCountryFormat> IbanCountryFormats = new List<IbanCountryFormat>
     {
-        new IbanCountryFormat
-        {
-            CountryName = "Italy",
-            CountryIsoCode = "IT",
-            IbanRegex = @"IT\d\d[A-Z]\d{10}[0-9A-Z]{12}"
-        },
-    
+         new IbanCountryFormat
+         {
+             CountryName = "France",
+             CountryIsoCode = "FR",
+             IbanRegex = @"FR\d{2}\d{10}[0-9A-Z]{11}\d{2}"
+         },
+         new IbanCountryFormat
+         {
+             CountryName = "Germany",
+             CountryIsoCode = "DE",
+             IbanRegex = @"DE\d{2}\d{18}"
+         },
+         new IbanCountryFormat
+         {
+             CountryName = "Italy",
+             CountryIsoCode = "IT",
+             IbanRegex = @"IT\d{2}[A-Z]\d{10}[0-9A-Z]{12}"
+         },
+         new IbanCountryFormat
+         {
+             CountryName = "Spain",
+             CountryIsoCode = "SP",
+             IbanRegex = @"SP\d{2}\d{20}"
+         },
+         new IbanCountryFormat
+         {
+             CountryName = "United Kingdom of Great Britain and Northern Ireland (the)",
+             CountryIsoCode = "GB",
+             IbanRegex = @"GB\d{2}[A-Z]{4}\d{14}"
+         }
+         
         // Other country formats
         ...
 
