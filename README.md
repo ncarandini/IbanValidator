@@ -11,29 +11,29 @@ Please contribute to add more countries, deriving the Regex expression from the 
 ``` csharp
 public static class IbanValidator
 {
-	public static (bool isValid, int errorCode, string errorMsg) Check(string iban)
-	{
-    // Check IBAN code format
-    ...
+    public static (bool isValid, int errorCode, string errorMsg) Check(string iban)
+    {
+        // Check IBAN code format
+        ...
     
-    // Calculate and verify IBAN code checksum 
-    ...
+        // Calculate and verify IBAN code checksum 
+        ...
     
-		return (isValid, errorCode, errorMsg);
-	}
+        return (isValid, errorCode, errorMsg);
+    }
 
-	public static List<IbanCountryFormat> IbanCountryFormats = new List<IbanCountryFormat>
-	{
-		new IbanCountryFormat
-		{
-			CountryName = "Italy",
-			CountryIsoCode = "IT",
-			IbanRegex = @"IT\d\d[A-Z]\d{10}[0-9A-Z]{12}"
-		},
+    public static List<IbanCountryFormat> IbanCountryFormats = new List<IbanCountryFormat>
+    {
+        new IbanCountryFormat
+        {
+            CountryName = "Italy",
+            CountryIsoCode = "IT",
+            IbanRegex = @"IT\d\d[A-Z]\d{10}[0-9A-Z]{12}"
+        },
     
-                // Other country formats
-                ...
-    
-	};
+        // Other country formats
+        ...
+
+    };
 }
 ```
