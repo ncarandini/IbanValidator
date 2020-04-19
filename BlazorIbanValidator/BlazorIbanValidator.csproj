@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TPCWare.IbanValidator\TPCWare.IbanValidator.csproj" />
+    <PackageReference Include="TPCWare.IbanValidator" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
