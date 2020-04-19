@@ -3,8 +3,8 @@ Simple IBAN Validator
 
 This library contains s static class `IbanValidator` with a method `Check`and an `IbanCountryFormat` list that describe the lenght and format of the IBAN code for each supported country.
 
-Actually I've managed to add support for those countries: France, Germany, Italy, Spain, United Kindom.
-Please contribute to add more countries, deriving the Regex expression from the [Wikipedia IBAN formats by country](https://en.wikipedia.org/wiki/International_Bank_Account_Number) table.
+Actually I've managed to add support for IBAN codes of the UE countries and the United Kingdom.
+Please feel free to contribute to add more countries, deriving the Regex expression from the [Wikipedia IBAN formats by country](https://en.wikipedia.org/wiki/International_Bank_Account_Number) table.
 
 ### Excerpt from the code
 
