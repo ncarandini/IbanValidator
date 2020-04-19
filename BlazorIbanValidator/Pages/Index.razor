@@ -1,0 +1,46 @@
+﻿@page "/"
+
+@using TPCWare.IbanValidator;
+
+<h1>IBAN Validator</h1>
+
+<div class="form-group mt-5">
+    <label>Codice IBAN (con o senza spazi):</label>
+    <input @bind-value="Iban" @bind-value:event="oninput" @onfocus="ResetResult" class="form-control" />
+</div>
+
+<button type="button" class="btn btn-primary mb-3" @onclick="CheckIban">Verifica</button>
+
+@if (Checked)
+{
+    if (IsValid)
+    {
+        <h5>Il codice IBAN inserito è valido.</h5>
+    }
+    else
+    {
+        <h5>Il codice IBAN inserito non è valido.</h5>
+    }
+}
+
+@code {
+
+    string Iban { get; set; }
+    bool Checked { get; set; }
+    bool IsValid { get; set; }
+    int ErrorCode { get; set; }
+    string ErrorMessage { get; set; }
+
+    private void CheckIban()
+    {
+        (IsValid, ErrorCode, ErrorMessage) = IbanValidator.Check(Iban);
+        Checked = true;
+    }
+
+    private void ResetResult()
+    {
+        Checked = false;
+    }
+
+}
+
