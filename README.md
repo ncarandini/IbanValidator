@@ -6,7 +6,7 @@ This library contains s static class `IbanValidator` with a method `Check`and an
 Actually I've managed to add suppurt for those countries: France, Germany, Italy, Spain, United Kindom.
 Please contribute to add more countries, deriving the Regex expression from the [Wikipedia IBAN formats by country](https://en.wikipedia.org/wiki/International_Bank_Account_Number) table.
 
-### Exceprt from the code
+### Excerpt from the code
 
 ``` csharp
 public static class IbanValidator
