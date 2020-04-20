@@ -1,7 +1,13 @@
 # IBAN validator
 Simple IBAN Validator
 
-This library contains s static class `IbanValidator` with a method `Check`and an `IbanCountryFormat` list that describe the lenght and format of the IBAN code for each supported country.
+This library contains a static class `IbanValidator` with two static methods:
+- `bool IsValid(string iban)`
+- `(bool isValid, int errorCode, string errorMsg) Check(string iban)`
+
+In the static class an internally used list `IbanCountryFormats` of `IbanCountryFormat` items describe the lenght and format of the IBAN code for each supported country.
+
+### Contribution
 
 Actually I've managed to add support for IBAN codes of the UE countries and the United Kingdom.
 Please feel free to contribute to add more countries, deriving the Regex expression from the [Wikipedia IBAN formats by country](https://en.wikipedia.org/wiki/International_Bank_Account_Number) table.
@@ -11,6 +17,12 @@ Please feel free to contribute to add more countries, deriving the Regex express
 ``` csharp
 public static class IbanValidator
 {
+    public static bool IsValid(string iban)
+    {
+        (bool isValid, _, _) = Check(iban);
+        return isValid;
+    }
+
     public static (bool isValid, int errorCode, string errorMsg) Check(string iban)
     {
         // Check IBAN code format
@@ -24,40 +36,15 @@ public static class IbanValidator
 
     public static List<IbanCountryFormat> IbanCountryFormats = new List<IbanCountryFormat>
     {
-         new IbanCountryFormat
-         {
-             CountryName = "France",
-             CountryIsoCode = "FR",
-             IbanRegex = @"FR\d{2}\d{10}[0-9A-Z]{11}\d{2}"
-         },
-         new IbanCountryFormat
-         {
-             CountryName = "Germany",
-             CountryIsoCode = "DE",
-             IbanRegex = @"DE\d{2}\d{18}"
-         },
-         new IbanCountryFormat
-         {
-             CountryName = "Italy",
-             CountryIsoCode = "IT",
-             IbanRegex = @"IT\d{2}[A-Z]\d{10}[0-9A-Z]{12}"
-         },
-         new IbanCountryFormat
-         {
-             CountryName = "Spain",
-             CountryIsoCode = "SP",
-             IbanRegex = @"SP\d{2}\d{20}"
-         },
-         new IbanCountryFormat
-         {
-             CountryName = "United Kingdom of Great Britain and Northern Ireland (the)",
-             CountryIsoCode = "GB",
-             IbanRegex = @"GB\d{2}[A-Z]{4}\d{14}"
-         }
-         
+        new IbanCountryFormat
+        {
+            CountryName = "Austria",
+            CountryIsoCode = "AT",
+            IbanRegex = @"AT\d{2}\d{16}" // 16n
+        },
+        
         // Other country formats
         ...
-
     };
 }
 ```
