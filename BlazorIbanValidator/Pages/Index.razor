@@ -28,12 +28,12 @@
     string Iban { get; set; }
     bool Checked { get; set; }
     bool IsValid { get; set; }
-    int ErrorCode { get; set; }
+    ErrorType ErrorType { get; set; }
     string ErrorMessage { get; set; }
 
     private void CheckIban()
     {
-        (IsValid, ErrorCode, ErrorMessage) = IbanValidator.Check(Iban);
+        (IsValid, ErrorType, ErrorMessage) = IbanValidator.Check(Iban);
         Checked = true;
     }
 

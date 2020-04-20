@@ -5,7 +5,8 @@
     <PackageId>TPCWare.IbanValidator</PackageId>
     <Authors>Nicolò Carandini</Authors>
     <Company>TPCWare</Company>
-    <Description>Library to validate an IBAN code</Description>
+    <Description>Library to validate for IBAN codes of the UE countries and the United Kingdom.
+See the repository readme to contribute and expand 'IBAN format by country' list.</Description>
     <Copyright>(C) 2020 Nicolò Carandini</Copyright>
     <PackageProjectUrl>https://github.com/ncarandini/IbanValidator</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ncarandini/IbanValidator.git</RepositoryUrl>
@@ -15,9 +16,10 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Product>IBAN validator</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>This version is able to check for IBAN codes of the UE countries and the United Kingdom.
-See the repository readme to contribute and expand 'IBAN format by country' list.
-    </PackageReleaseNotes>
+    <PackageReleaseNotes>This version add 'IsValid' method to get only le boolean result without error type and reason message of a failed validation. It also replace integer ErrorCode in favour of enum errorType.</PackageReleaseNotes>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
+    <Version>1.1.0</Version>
 
   </PropertyGroup>
 
