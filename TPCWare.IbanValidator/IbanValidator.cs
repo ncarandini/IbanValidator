@@ -7,76 +7,91 @@ namespace TPCWare.IbanValidator
 {
 	public static class IbanValidator
 	{
-		public static (bool isValid, int errorCode, string errorMsg) Check(string iban)
+		public static bool IsValid(string iban)
+		{
+			(bool isValid, _, _) = Check(iban);
+			return isValid;
+		}
+
+		public static (bool isValid, ErrorType errorType, string errorMsg) Check(string iban)
 		{
 			bool isValid;
-			int errorCode;
+			ErrorType errorType;
 			string errorMsg;
 
-			string ibanCountryIsoCode = iban.Substring(0, 2);
-			string ibanWithoutspaces = iban.Replace(" ", "");
+			try
+			{
+				string ibanCountryIsoCode = iban.Substring(0, 2);
+				string ibanWithoutspaces = iban.Replace(" ", "");
 
-			// Check if the country is supported
-			var ibanCountryFormat = IbanCountryFormats.FirstOrDefault(icf => icf.CountryIsoCode == ibanCountryIsoCode);
-			if (ibanCountryFormat == null)
-			{
-				isValid = false;
-				errorCode = 1;
-				errorMsg = "Country not supported.";
-			}
-			else
-			{
-				// Check if format is valid
-				bool ibanFormatIsValid = Regex.IsMatch(ibanWithoutspaces, ibanCountryFormat.IbanRegex);
-				if (!ibanFormatIsValid)
+				// Check if the country is supported
+				var ibanCountryFormat = IbanCountryFormats.FirstOrDefault(icf => icf.CountryIsoCode == ibanCountryIsoCode);
+				if (ibanCountryFormat == null)
 				{
 					isValid = false;
-					errorCode = 2;
-					errorMsg = "Country format check failed.";
+					errorType = ErrorType.NotSupportedCountry;
+					errorMsg = "Country not supported.";
 				}
 				else
 				{
-					// Validate the IBAN
-					string ibanValidationSource = ibanWithoutspaces.Substring(4) + ibanWithoutspaces.Substring(0, 4);
-
-					string ibanValidationNumbers = "";
-					foreach (char c in ibanValidationSource)
+					// Check if format is valid
+					bool ibanFormatIsValid = Regex.IsMatch(ibanWithoutspaces, ibanCountryFormat.IbanRegex);
+					if (!ibanFormatIsValid)
 					{
-						if (c >= '0' && c <= '9')
-						{
-							ibanValidationNumbers += (c - 48).ToString();
-						}
-						else if (c >= 'A' && c <= 'Z')
-						{
-							ibanValidationNumbers += (c - 55).ToString();
-						}
-					}
-
-					int i = 0;
-					int len = ibanValidationNumbers.Length;
-					string d = ibanValidationNumbers.Substring(i, 9); i += 9;
-					int r = Convert.ToInt32(d) % 97;
-					while (i < len)
-					{
-						d = r.ToString("00") + ibanValidationNumbers.Substring(i, Math.Min(len-i, 7)); i += 7;
-						r = Convert.ToInt32(d) % 97;
-					}
-					if (r == 1)
-					{
-						isValid = true;
-						errorCode = 0;
-						errorMsg = string.Empty;
+						isValid = false;
+						errorType = ErrorType.WrongCountryFormat;
+						errorMsg = "Country format check failed.";
 					}
 					else
 					{
-						isValid = false;
-						errorCode = 1;
-						errorMsg = "Checksum failed.";
+						// Validate the IBAN
+						string ibanValidationSource = ibanWithoutspaces.Substring(4) + ibanWithoutspaces.Substring(0, 4);
+
+						string ibanValidationNumbers = "";
+						foreach (char c in ibanValidationSource)
+						{
+							if (c >= '0' && c <= '9')
+							{
+								ibanValidationNumbers += (c - 48).ToString();
+							}
+							else if (c >= 'A' && c <= 'Z')
+							{
+								ibanValidationNumbers += (c - 55).ToString();
+							}
+						}
+
+						int i = 0;
+						int len = ibanValidationNumbers.Length;
+						string d = ibanValidationNumbers.Substring(i, 9); i += 9;
+						int r = Convert.ToInt32(d) % 97;
+						while (i < len)
+						{
+							d = r.ToString("00") + ibanValidationNumbers.Substring(i, Math.Min(len - i, 7)); i += 7;
+							r = Convert.ToInt32(d) % 97;
+						}
+						if (r != 1)
+						{
+							isValid = false;
+							errorType = ErrorType.FailedChecksum;
+							errorMsg = "Checksum failed.";
+						}
+						else
+						{
+							isValid = true;
+							errorType = ErrorType.None;
+							errorMsg = string.Empty;
+						}
 					}
 				}
 			}
+			catch (Exception ex)
+			{
+				isValid = false;
+				errorType = ErrorType.InternalError;
+				errorMsg = $"IBAN check failed (error: {ex.Message})";
+			}
 
-			return (isValid, errorCode, errorMsg);
+			return (isValid, errorType, errorMsg);
 		}
 
 		public static List<IbanCountryFormat> IbanCountryFormats = new List<IbanCountryFormat>
